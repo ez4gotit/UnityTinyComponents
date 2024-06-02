@@ -1,6 +1,7 @@
+using Global.Interfaces;
 using UnityEngine;
 
-public class UnityEntryPoint : MonoBehaviour
+public class UnityEntryPoint : MonoBehaviour , IEntryPoint
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
