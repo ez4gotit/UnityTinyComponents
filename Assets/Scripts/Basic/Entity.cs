@@ -1,7 +1,11 @@
 using UnityEngine;
 using Global.Intefaces;
+using UnityEngine.Events;
+
 public class Entity : MonoBehaviour, IEntity
 {
+    [SerializeField] private UnityEvent OnDie; 
+    [SerializeField] private UnityEvent OnChangeHp; 
     public float hp
     {
         get
@@ -17,11 +21,12 @@ public class Entity : MonoBehaviour, IEntity
     private float _hp;
     public float ChangeHp(float amount)
     {
+        OnChangeHp?.Invoke();
         return hp += amount;
     }
 
     public void Die()
     {
-        throw new System.NotImplementedException();
+        OnDie?.Invoke();
     }
 }
