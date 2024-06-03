@@ -1,8 +1,7 @@
 using UnityEngine;
 using Global.Intefaces;
-using UnityEngine.Events;
 
-public class Entity : MonoBehaviour, IEntity
+public class EntityComponent : MonoBehaviour, IEntity
 {
     [SerializeField] private UnityEvent OnDie; 
     [SerializeField] private UnityEvent OnChangeHp; 

@@ -12,5 +12,6 @@ public class Movable : MonoBehaviour, IMovable
     public void RequestRotation(Quaternion rotationToMove)
     {
         gameObject.transform.rotation = rotationToMove;
+
     }
 }
