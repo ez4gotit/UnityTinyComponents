@@ -21,8 +21,10 @@ public class InputComponent : MonoBehaviour
     [SerializeField]private float maxLookAngle = 100;
     public Vector2 inputAxis;
     public Vector3 rotationAxis;
-    private float pitch;
-    private float yaw;
+    private float _pitch;
+    private float _yaw;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -77,22 +79,22 @@ public class InputComponent : MonoBehaviour
     {
         rotationAxis = Vector3.zero;
 
-            yaw = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * mouseSensitivity;
+            _yaw = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * mouseSensitivity;
             
             if (!isInverted)
             {
-                pitch -= mouseSensitivity * Input.GetAxis("Mouse Y")*Screen.height/Screen.width;
+                _pitch -= mouseSensitivity * Input.GetAxis("Mouse Y")*Screen.height/Screen.width;
             }
             else
             {
                 // Inverted Y
-                pitch += mouseSensitivity * Input.GetAxis("Mouse Y") * Screen.height / Screen.width;
+                _pitch += mouseSensitivity * Input.GetAxis("Mouse Y") * Screen.height / Screen.width;
             }
 
-            // Clamp pitch between lookAngle
-            pitch = Mathf.Clamp(pitch, -maxLookAngle, maxLookAngle);
+            // Clamp _pitch between lookAngle
+            _pitch = Mathf.Clamp(_pitch, -maxLookAngle, maxLookAngle);
 
-            rotationAxis = new Vector3(pitch, yaw, 0);
+            rotationAxis = new Vector3(_pitch, _yaw, 0);
         
         return rotationAxis;
     }
