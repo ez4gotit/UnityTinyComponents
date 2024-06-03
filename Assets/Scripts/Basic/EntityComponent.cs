@@ -1,6 +1,6 @@
 using UnityEngine;
 using Global.Intefaces;
-public class Entity : MonoBehaviour, IEntity
+public class EntityComponent : MonoBehaviour, IEntity
 {
     public float hp
     {
