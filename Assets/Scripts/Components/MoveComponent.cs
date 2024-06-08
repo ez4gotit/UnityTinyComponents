@@ -13,6 +13,7 @@ public class MoveComponent : MonoBehaviour, IMoveController
     public bool isGrounded = true;
     public float jumpPower = 5f;
     public float maxVelocityChange = 10f;
+    public float gravity;
     #endregion
 
     public void MoveToPoint(Vector3 positionToMove)
@@ -41,7 +42,7 @@ public class MoveComponent : MonoBehaviour, IMoveController
         Vector3 targetVelocity = (direction.x*transform.forward+direction.z*transform.right)*moveSpeed;
         Vector3 velocity = rigidBody.linearVelocity;
         Vector3 velocityChange = (targetVelocity - velocity);
-        rigidBody.AddForce(velocityChange, ForceMode.VelocityChange);
+        rigidBody.AddForce(velocityChange+Vector3.down, ForceMode.VelocityChange);
     }
 
     public void Jump()

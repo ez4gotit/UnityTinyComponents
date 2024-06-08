@@ -56,20 +56,20 @@ public class InputComponent : MonoBehaviour
 
         if(Input.GetKey(up))
         {
-            axisVector.y = Mathf.Clamp(axisVector.y + 1, -1, 1);
+            axisVector.x = Mathf.Clamp(axisVector.x + 1, -1, 1);
         }
         if (Input.GetKey(down))
         {
-            axisVector.y = Mathf.Clamp(axisVector.y - 1, -1, 1);
+            axisVector.x = Mathf.Clamp(axisVector.x - 1, -1, 1);
         }
 
         if (Input.GetKey(left))
         {
-            axisVector.x = Mathf.Clamp(axisVector.y - 1, -1, 1);
+            axisVector.y = Mathf.Clamp(axisVector.y - 1, -1, 1);
         }
         if (Input.GetKey(right))
         {
-            axisVector.x = Mathf.Clamp(axisVector.y + 1, -1, 1);
+            axisVector.y = Mathf.Clamp(axisVector.y + 1, -1, 1);
         }
 
         return axisVector;
