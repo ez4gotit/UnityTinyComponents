@@ -277,7 +277,7 @@ MonoBehaviour:
   isGrounded: 1
   jumpPower: 5
   maxVelocityChange: 10
-  gravity: 0
+  gravityForce: 0
 --- !u!1 &350279066
 GameObject:
   m_ObjectHideFlags: 0
@@ -1104,7 +1104,7 @@ MonoBehaviour:
   isGrounded: 1
   jumpPower: 5
   maxVelocityChange: 1
-  gravity: 2
+  gravityForce: 0
 --- !u!114 &1545022244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1123,10 +1123,11 @@ MonoBehaviour:
   leftKey: 97
   rightKey: 100
   sprintKey: 0
-  jumpKey: 0
+  jumpKey: 32
   isInverted: 0
   mouseSensitivity: 10
   maxLookAngle: 90
+  jumpState: 0
   inputAxis: {x: 0, y: 0}
   rotationAxis: {x: 0, y: 0, z: 0}
 --- !u!114 &1545022245

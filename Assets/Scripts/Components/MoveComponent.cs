@@ -1,19 +1,23 @@
 using UnityEngine;
 using Global.Intefaces;
-using System.Runtime.InteropServices.WindowsRuntime;
+using System.Collections;
 public class MoveComponent : MonoBehaviour, IMoveController
 {
     #region Fields
     [SerializeField]private float _moveSpeed;
     [SerializeField]private float _rotationSpeed;
+    [SerializeField]private float _jumpDuration = 1.5f;
+    [SerializeField]private float _jumpHeight = 1.5f;
     public float moveSpeed { get => _moveSpeed; set => _moveSpeed=value; }
     public float rotationSpeed { get => _rotationSpeed; set => _rotationSpeed=value; }
     [SerializeField] private Rigidbody rigidBody;
     public bool canMove = true;
     public bool isGrounded = true;
-    public float jumpPower = 5f;
+    public float jumpVelocity = 5f;
     public float maxVelocityChange = 10f;
-    public float gravity;
+    public float gravityForce;
+    public float groundCheckDistance;
+    
     #endregion
 
     public void MoveToPoint(Vector3 positionToMove)
@@ -38,19 +42,33 @@ public class MoveComponent : MonoBehaviour, IMoveController
 
     public void MoveToward(Vector3 direction)
     {
-        
-        Vector3 targetVelocity = (direction.x*transform.forward+direction.z*transform.right)*moveSpeed;
+        CheckGround();
+        Vector3 targetVelocity = Vector3.down * gravityForce + (direction.x*transform.forward+direction.z*transform.right)*moveSpeed;//+ (isGrounded? direction.y*transform.up*jumpVelocity:Vector3.zero);
         Vector3 velocity = rigidBody.linearVelocity;
         Vector3 velocityChange = (targetVelocity - velocity);
-        rigidBody.AddForce(velocityChange+Vector3.down, ForceMode.VelocityChange);
+        rigidBody.AddForce(velocityChange, ForceMode.VelocityChange);
     }
-
+    //deltaY = currentY - initialY 
+    //jumpVelocity, JumpHeight, jumpDuration
+    //while delataY < JumpHeight && jumpDuration < Time.currentTime- jumpStartTime
+    //{  }
     public void Jump()
     {
+        if (rigidBody.linearVelocity.y > 0) isGrounded = false;
         if (isGrounded)
         {
-            rigidBody.AddForce(0f, jumpPower, 0f, ForceMode.Impulse);
             isGrounded = false;
+            float jumpStart = Time.time;
+            float initialY = transform.position.y;
+            float dTime = jumpStart - Time.time;
+            float dY = initialY - transform.position.y;
+            while (dTime < _jumpDuration && dY < _jumpHeight)
+            {
+                rigidBody.AddForce(0f, jumpVelocity, 0f, ForceMode.Impulse);
+            }
+            
+            //StartCoroutine(JumpCoroutine());
+            
         }
 
     }
@@ -59,7 +77,7 @@ public class MoveComponent : MonoBehaviour, IMoveController
     {
         Vector3 origin = new Vector3(transform.position.x, transform.position.y - (transform.localScale.y * .5f), transform.position.z);
         Vector3 direction = transform.TransformDirection(Vector3.down);
-        float distance = .75f;
+        float distance = groundCheckDistance;
 
         if (Physics.Raycast(origin, direction, out RaycastHit hit, distance))
         {
@@ -77,5 +95,12 @@ public class MoveComponent : MonoBehaviour, IMoveController
         gameObject.transform.rotation = rotationToRotate;
         //rigidBody.angularVelocity = Vector3.zero;
     }
-    
+    private IEnumerator JumpCoroutine()
+    {
+        while (rigidBody.linearVelocity.y < jumpVelocity)
+        {
+            rigidBody.AddForce( 0,Time.deltaTime,0,ForceMode.VelocityChange);
+            yield return null;
+        }
+    }
 }

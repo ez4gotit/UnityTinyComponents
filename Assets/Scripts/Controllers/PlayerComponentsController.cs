@@ -32,6 +32,6 @@ public class PlayerComponentsController : MonoBehaviour
         moveComponent.MoveToward(Vectors.VectorConvert(inputComponent.inputAxis));
         moveComponent.RotateToward(Quaternion.Euler(new Vector3(0,inputComponent.rotationAxis.y)));
         headMoveComponent.RotateToward(Quaternion.Euler(new Vector3(inputComponent.rotationAxis.x,inputComponent.rotationAxis.y)));
-        
+        if (inputComponent.jumpState) moveComponent.Jump();
     }
 }

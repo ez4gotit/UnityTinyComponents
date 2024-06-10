@@ -13,12 +13,13 @@ public class InputComponent : MonoBehaviour
     [SerializeField] private KeyCode leftKey = KeyCode.A;
     [SerializeField] private KeyCode rightKey = KeyCode.D;
     [SerializeField] private KeyCode sprintKey;
-    [SerializeField] private KeyCode jumpKey;
+    [SerializeField] private KeyCode jumpKey = KeyCode.Space;
 
     [Header("Rotation Parameters")]
     [SerializeField]private bool isInverted = false;
     [SerializeField]private float mouseSensitivity = 1;
     [SerializeField]private float maxLookAngle = 100;
+    public bool jumpState;
     public Vector2 inputAxis;
     public Vector3 rotationAxis;
     private float _pitch;
@@ -32,7 +33,7 @@ public class InputComponent : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         switch(inputMode)
         {
@@ -45,8 +46,20 @@ public class InputComponent : MonoBehaviour
                 break;
             
         }
+        
         rotationAxis = RotationAxis();
 
+    }
+
+    private void FixedUpdate()
+    {
+        jumpState = JumpHandle(jumpKey);
+    }
+
+    private bool JumpHandle(KeyCode jump)
+    {
+        if (Input.GetKey(jumpKey)) return true;
+        return false;
     }
 
     private Vector2 axisVector;
