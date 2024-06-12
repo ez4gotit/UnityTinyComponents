@@ -1,6 +1,7 @@
 using UnityEngine;
 using Global.Intefaces;
 using System.Collections;
+using Unity.VisualScripting;
 public class MoveComponent : MonoBehaviour, IMoveController
 {
     #region Fields
@@ -13,10 +14,11 @@ public class MoveComponent : MonoBehaviour, IMoveController
     [SerializeField] private Rigidbody rigidBody;
     public bool canMove = true;
     public bool isGrounded = true;
-    public float jumpVelocity = 5f;
+    [SerializeField] private float _jumpPower = 5f;
+    [SerializeField] private float _currentJump = 0f;
     public float maxVelocityChange = 10f;
-    public float gravityForce;
-    public float groundCheckDistance;
+    public float gravityForce = 9.81f;
+    [SerializeField] private float _groundCheckDistance = 0.8f;
     
     #endregion
 
@@ -43,7 +45,9 @@ public class MoveComponent : MonoBehaviour, IMoveController
     public void MoveToward(Vector3 direction)
     {
         CheckGround();
-        Vector3 targetVelocity = Vector3.down * gravityForce + (direction.x*transform.forward+direction.z*transform.right)*moveSpeed;//+ (isGrounded? direction.y*transform.up*jumpVelocity:Vector3.zero);
+        Vector3 targetVelocity = Vector3.down * gravityForce 
+            + (direction.x*transform.forward+direction.z*transform.right)*moveSpeed
+            + Vector3.up * _currentJump;//+ (isGrounded? direction.y*transform.up*jumpVelocity:Vector3.zero);
         Vector3 velocity = rigidBody.linearVelocity;
         Vector3 velocityChange = (targetVelocity - velocity);
         rigidBody.AddForce(velocityChange, ForceMode.VelocityChange);
@@ -60,15 +64,9 @@ public class MoveComponent : MonoBehaviour, IMoveController
             isGrounded = false;
             float jumpStart = Time.time;
             float initialY = transform.position.y;
-            float dTime = jumpStart - Time.time;
-            float dY = initialY - transform.position.y;
-            while (dTime < _jumpDuration && dY < _jumpHeight)
-            {
-                rigidBody.AddForce(0f, jumpVelocity, 0f, ForceMode.Impulse);
-            }
-            
-            //StartCoroutine(JumpCoroutine());
-            
+            StartCoroutine(JumpCoroutine(jumpStart, initialY));
+            _currentJump = 0f;
+
         }
 
     }
@@ -77,7 +75,7 @@ public class MoveComponent : MonoBehaviour, IMoveController
     {
         Vector3 origin = new Vector3(transform.position.x, transform.position.y - (transform.localScale.y * .5f), transform.position.z);
         Vector3 direction = transform.TransformDirection(Vector3.down);
-        float distance = groundCheckDistance;
+        float distance = _groundCheckDistance;
 
         if (Physics.Raycast(origin, direction, out RaycastHit hit, distance))
         {
@@ -95,12 +93,22 @@ public class MoveComponent : MonoBehaviour, IMoveController
         gameObject.transform.rotation = rotationToRotate;
         //rigidBody.angularVelocity = Vector3.zero;
     }
-    private IEnumerator JumpCoroutine()
+    private IEnumerator JumpCoroutine(float initialTime, float initialY)
     {
-        while (rigidBody.linearVelocity.y < jumpVelocity)
+        while (Time.time - initialTime < _jumpDuration && transform.position.y - initialY < _jumpHeight)
         {
-            rigidBody.AddForce( 0,Time.deltaTime,0,ForceMode.VelocityChange);
-            yield return null;
+            _currentJump += _jumpPower;
+            /*print(initialTime);
+            print(Time.time);*/
+            yield return new WaitForSeconds(0.1f);
         }
+        while (_currentJump > 0)
+        {
+            _currentJump -= _jumpPower;
+            /*print(initialTime);
+            print(Time.time);*/
+            yield return new WaitForSeconds(0.1f);
+        }
+        _currentJump = 0f;
     }
 }
