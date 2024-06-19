@@ -1,19 +1,24 @@
 using UnityEngine;
 using Global.Tools;
-public class PlayerComponentsController : MonoBehaviour
+using Mirror;
+
+public class PlayerComponentsController : NetworkBehaviour
 {
-    [Header("Internal Controllers")]
+    [Header("Internal Components")]
     [SerializeField] private MoveComponent moveComponent;
     [SerializeField] private EntityComponent entityComponent;
     [SerializeField] private InputComponent inputComponent;
-    [Header("External Controllers")]
+    [SerializeField] private AnimationComponent animationComponent;
+    [Header("External Components")]
     [SerializeField] private MoveComponent headMoveComponent;
+    [SerializeField] private MoveComponent torsoMoveComponent;
 
     private void OnEnable()
     {
         moveComponent = gameObject.GetComponent<MoveComponent>();   
         entityComponent = gameObject.GetComponent<EntityComponent>();   
         inputComponent = gameObject.GetComponent<InputComponent>();
+        animationComponent = gameObject.GetComponent<AnimationComponent>();
         headMoveComponent.rotationSpeed = moveComponent.rotationSpeed;
     }
 
@@ -29,9 +34,20 @@ public class PlayerComponentsController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        moveComponent.MoveToward(Vectors.VectorConvert(inputComponent.inputAxis));
-        moveComponent.RotateToward(Quaternion.Euler(new Vector3(0,inputComponent.rotationAxis.y)));
-        headMoveComponent.RotateToward(Quaternion.Euler(new Vector3(inputComponent.rotationAxis.x,inputComponent.rotationAxis.y)));
-        if (inputComponent.jumpState) moveComponent.Jump();
+        moveComponent?.MoveToward(Vectors.VectorConvert(inputComponent.inputAxis));
+        moveComponent?.RotateToward(Quaternion.Euler(new Vector3(0,inputComponent.rotationAxis.y)));
+        headMoveComponent?.RotateToward(Quaternion.Euler(new Vector3(inputComponent.rotationAxis.x,inputComponent.rotationAxis.y)));
+        torsoMoveComponent?.RotateToward(Quaternion.Euler(new Vector3(inputComponent.rotationAxis.x,inputComponent.rotationAxis.y)));
+        if (inputComponent.inputAxis.magnitude > 0)
+        {
+            animationComponent.PlayIfIdle("m_run", "m_idle_A");
+            //animationComponent.transform.position = Vector3.down * 1.3f;
+        }
+        else
+        {
+            animationComponent.Play("m_idle_A");
+            //animationComponent.transform.position = Vector3.down;
+        }
+        if (inputComponent.jumpState)moveComponent?.Jump();
     }
 }
