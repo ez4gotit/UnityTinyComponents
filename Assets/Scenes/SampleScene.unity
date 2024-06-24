@@ -1059,7 +1059,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   port: 7777
-  DualMode: 1
+  DualMode: 0
   NoDelay: 1
   Interval: 10
   Timeout: 10000
@@ -1072,7 +1072,7 @@ MonoBehaviour:
   MaximizeSocketBuffers: 1
   ReliableMaxMessageSize: 294131
   UnreliableMaxMessageSize: 1181
-  debugLog: 0
+  debugLog: 1
   statisticsGUI: 0
   statisticsLog: 0
   relayAddress: 127.0.0.1
