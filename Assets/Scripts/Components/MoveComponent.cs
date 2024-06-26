@@ -100,14 +100,14 @@ public class MoveComponent : MonoBehaviour, IMoveController
             _currentJump += _jumpPower;
             /*print(initialTime);
             print(Time.time);*/
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(Time.deltaTime);
         }
         while (_currentJump > 0)
         {
             _currentJump -= _jumpPower;
             /*print(initialTime);
             print(Time.time);*/
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(Time.deltaTime);
         }
         _currentJump = 0f;
     }
