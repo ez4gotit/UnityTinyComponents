@@ -14,6 +14,17 @@ public class InputComponent : MonoBehaviour
     [SerializeField] private KeyCode rightKey = KeyCode.D;
     [SerializeField] private KeyCode sprintKey;
     [SerializeField] private KeyCode jumpKey = KeyCode.Space;
+    [SerializeField] private KeyCode pickUp = KeyCode.E;
+    [SerializeField] private KeyCode throwAway = KeyCode.Q;
+
+    public KeyCode PickUpKey
+    {
+        get { return pickUp; }
+    }
+    public KeyCode DropKey
+    {
+        get { return throwAway; }
+    }
 
     [Header("Rotation Parameters")]
     [SerializeField]private bool isInverted = false;
