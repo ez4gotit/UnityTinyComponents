@@ -40,7 +40,7 @@ using UnityEngine;
         if (!equipped && distanceToPlayer.magnitude <= pickUpRange && Input.GetKeyDown(input.PickUpKey) && !slotFull) PickUp();
 
         //Drop if equipped and "Q" is pressed
-        if (equipped && Input.GetKeyDown(input.DropKey)) Drop();
+        // if (equipped && Input.GetKeyDown(input.DropKey)) Drop();
     }
 
     private void PickUp()

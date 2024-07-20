@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class ItemComponent : MonoBehaviour
 {
-    public bool enabled = true;
-    public bool disabled = false;
+    public bool enabled ;
+    public bool disabled ;
     public GameObject item;
 
     public void enable()

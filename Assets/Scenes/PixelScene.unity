@@ -1420,8 +1420,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.000000014901163, y: -0.00000001676381, z: 2.4980026e-16,
     w: 1}
-  m_LocalPosition: {x: 0.00000009689331, y: 0, z: 0.00000065402986}
-  m_LocalScale: {x: 0.9999999, y: 0.99999994, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3356339909102297114}
@@ -1654,7 +1654,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3356339909102297114}
   m_Layer: 0
-  m_Name: R_hand_container
+  m_Name: Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1868,7 +1868,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7afb71c843cb8a54ca3de44318c2b2cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enabled: 1
+  enabled: 0
   disabled: 0
   item: {fileID: 2623616516731676616}
 --- !u!114 &5984309165623776642
@@ -1883,7 +1883,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 973678c8260bb964d914c58be7865c3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemInHand: {fileID: 0}
+  itemInHand: {fileID: 5984309165623776641}
   rb: {fileID: 5984309165623776643}
   coll: {fileID: 5984309165623776644}
   player: {fileID: 8240975316791218094}
