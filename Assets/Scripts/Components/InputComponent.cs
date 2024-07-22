@@ -5,16 +5,18 @@ using UnityEngine;
 
 public class InputComponent : MonoBehaviour
 {
-
+    [Tooltip("Continous OR Discrete mode")]
     [SerializeField]private InputMode inputMode;
     [Header("InputKeys")]
     [SerializeField] private KeyCode upKey = KeyCode.W;
     [SerializeField] private KeyCode downKey = KeyCode.S;
     [SerializeField] private KeyCode leftKey = KeyCode.A;
     [SerializeField] private KeyCode rightKey = KeyCode.D;
-    [SerializeField] private KeyCode sprintKey;
+    [SerializeField] private KeyCode sprintKey = KeyCode.LeftShift;
     [SerializeField] private KeyCode jumpKey = KeyCode.Space;
-
+    [SerializeField] private KeyCode actionKey = KeyCode.E;
+    [SerializeField] private KeyCode dropKey = KeyCode.Q;
+    [SerializeField] private KeyCode pickUp => actionKey;
     [Header("Rotation Parameters")]
     [SerializeField]private bool isInverted = false;
     [SerializeField]private float mouseSensitivity = 1;
@@ -22,6 +24,19 @@ public class InputComponent : MonoBehaviour
     public bool jumpState;
     public Vector2 inputAxis;
     public Vector3 rotationAxis;
+
+    public bool isAction
+    {
+        get { return Input.GetKeyDown(actionKey); }
+    }
+    public bool isDrop
+    {
+        get { return Input.GetKeyDown(dropKey); }
+    }
+
+
+
+
     private float _pitch;
     private float _yaw;
 

@@ -9,6 +9,8 @@ public class PlayerComponentsController : NetworkBehaviour
     [SerializeField] private EntityComponent entityComponent;
     [SerializeField] private InputComponent inputComponent;
     [SerializeField] private AnimationComponent animationComponent;
+    [SerializeField] private InventoryComponent inventoryComponent;
+    [SerializeField] private ItemHolderComponent itemHolderComponent;
     [Header("External Components")]
     [SerializeField] private MoveComponent headMoveComponent;
     [SerializeField] private MoveComponent torsoMoveComponent;
@@ -19,6 +21,8 @@ public class PlayerComponentsController : NetworkBehaviour
         entityComponent = gameObject.GetComponent<EntityComponent>();   
         inputComponent = gameObject.GetComponent<InputComponent>();
         animationComponent = gameObject.GetComponent<AnimationComponent>();
+        inventoryComponent = gameObject.GetComponent<InventoryComponent>();
+        itemHolderComponent = gameObject.GetComponent<ItemHolderComponent>();
         headMoveComponent.rotationSpeed = moveComponent.rotationSpeed;
     }
 
@@ -29,7 +33,8 @@ public class PlayerComponentsController : NetworkBehaviour
 
     private void Update()
     {
-        
+        if (inputComponent.isAction) itemHolderComponent.TryPickupItem();
+        if (inputComponent.isDrop) itemHolderComponent.TryDropItem();
     }
 
     private void FixedUpdate()
