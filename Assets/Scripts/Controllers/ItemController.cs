@@ -1,29 +1,27 @@
 using Unity.Cinemachine;
 using UnityEngine;
 
-public class ItemComponent : MonoBehaviour
+public class ItemController : MonoBehaviour
 {
-    public bool enabled ;
-    public bool disabled ;
+    public bool isEnabled => item.activeSelf;
     public GameObject item;
 
-    public void enable()
+    [SerializeField]
+    public void Enable()
     {
         if (!item.activeSelf)
         {
             item.SetActive(true);
-            enabled = true;
         }
         
     }
 
-    public void disable()
+    public void Disable()
     {
         if (item.activeSelf)
         {
             // item.transform.position = new Vector3(9999, 9999, 9999);
             item.SetActive(false);
-            disabled = true;
         }
     }
 }

@@ -1,9 +1,11 @@
 using UnityEngine;
-
-
-    public class Pickupitem : MonoBehaviour
-   { 
-    public ItemComponent itemInHand;
+/// <summary>
+/// This one is deprecated and do not satisfies pattern MUST be moved to InventoryComponent and ItemController
+/// I mostly moved all of the logic outside so this script is ALMOST not needed anymore :)
+/// </summary>
+public class Pickupitem : MonoBehaviour
+{ 
+    public ItemController itemInHand;
     private InputComponent input;
     public Rigidbody rb;
     public BoxCollider coll;
@@ -37,7 +39,7 @@ using UnityEngine;
     {
         //Check if player is in range and "E" is pressed
         Vector3 distanceToPlayer = player.position - transform.position;
-        if (!equipped && distanceToPlayer.magnitude <= pickUpRange && Input.GetKeyDown(input.PickUpKey) && !slotFull) PickUp();
+        //if (!equipped && distanceToPlayer.magnitude <= pickUpRange && Input.GetKeyDown(input.PickUpKey) && !slotFull) PickUp();
 
         //Drop if equipped and "Q" is pressed
         // if (equipped && Input.GetKeyDown(input.DropKey)) Drop();

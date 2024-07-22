@@ -3,29 +3,32 @@ using UnityEngine;
 
 public class InventoryComponent : MonoBehaviour
 {
-
-    public List<GameObject> StoredItems;
+    [SerializeField] private Transform inventoryContainer;
+    [SerializeField] private List<ItemController> StoredItems;
     public int Slots = 1;
 
-    public void Collect(GameObject item)
+    public void Collect(ItemController item)
     {
         if (StoredItems.Count < Slots)
         {
             StoredItems.Add(item);
 
-
+            if (inventoryContainer != null)
+            {
+                item.gameObject.transform.position = inventoryContainer.transform.position;
+            }
             item.transform.position = Vector3.one*-10000;
-            item.SetActive(false);
+            item.Disable();
         }
         
     }
 
-    public void DropItem(GameObject item)
+    public void DropItem(ItemController item)
     {
         if(StoredItems.Remove(item))
         {
             item.transform.position = gameObject.transform.position;
-            item.SetActive(true);
+            item.Enable();
         }
     }
 
@@ -34,7 +37,7 @@ public class InventoryComponent : MonoBehaviour
         foreach(var item in StoredItems)
         {
             item.transform.position = gameObject.transform.position;
-            item.SetActive(true);
+            item.Enable();
         }
     }
 }
