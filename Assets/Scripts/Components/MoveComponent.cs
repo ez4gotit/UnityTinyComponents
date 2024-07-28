@@ -61,15 +61,17 @@ public class MoveComponent : MonoBehaviour, IMoveController
         if (rigidBody.linearVelocity.y > 0) isGrounded = false;
         if (isGrounded)
         {
+            StopAllCoroutines();
             isGrounded = false;
             float jumpStart = Time.time;
             float initialY = transform.position.y;
             StartCoroutine(JumpCoroutine(jumpStart, initialY));
-            _currentJump = 0f;
 
         }
 
     }
+
+
 
     private void CheckGround()
     {
@@ -95,20 +97,23 @@ public class MoveComponent : MonoBehaviour, IMoveController
     }
     private IEnumerator JumpCoroutine(float initialTime, float initialY)
     {
-        while (Time.time - initialTime < _jumpDuration && transform.position.y - initialY < _jumpHeight)
+        _currentJump = gravityForce;
+        // Ascend
+        while (Time.time - initialTime <= _jumpDuration && transform.position.y - initialY <= _jumpHeight)
         {
-            _currentJump += _jumpPower;
-            /*print(initialTime);
-            print(Time.time);*/
-            yield return new WaitForSeconds(Time.deltaTime);
+            _currentJump += _jumpPower; 
+
+            yield return null; 
         }
+
+        // Descend
         while (_currentJump > 0)
         {
-            _currentJump -= _jumpPower;
-            /*print(initialTime);
-            print(Time.time);*/
-            yield return new WaitForSeconds(Time.deltaTime);
+            _currentJump -= gravityForce; 
+
+            yield return null; 
         }
+
         _currentJump = 0f;
     }
 }

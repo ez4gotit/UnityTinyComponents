@@ -33,8 +33,10 @@ public class ItemHolderComponent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        activeItem.gameObject.transform.position = hand.transform.position;
+        if (activeItem != null)
+        {
+            activeItem.gameObject.transform.position = hand.transform.position;
+        }
     }
 
     private void SetActiveItem(ItemController item)
@@ -60,8 +62,10 @@ public class ItemHolderComponent : MonoBehaviour
 
     private void PickUp()
     {
+
         RaycastHit hit;
         Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out hit, collectDistance, collectableLayers);
         inventory.Collect(hit.transform.gameObject.GetComponent<ItemController>());
+        SetActiveItem(hit.transform.gameObject.GetComponent<ItemController>());
     }
 }
